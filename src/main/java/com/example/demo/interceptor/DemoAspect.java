@@ -46,9 +46,18 @@ public class DemoAspect {
 
 
     @Around("interceptorAnnotation()")
-    public Object aroundDemo(ProceedingJoinPoint proceedingJoinPoint) {
+    public Object aroundDemo(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        Object[] args = proceedingJoinPoint.getArgs();
+        for (Object arg : args) {
+          if (arg instanceof Long) {
+              log.info("arg: {}",arg);
+          }
+        }
+        //此处可以针对args进行处理和增强
+
         log.info("coming into this annotation!");
-        return new Object();
+        return proceedingJoinPoint.proceed(args);
     }
+
 
 }
